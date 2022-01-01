@@ -9,7 +9,7 @@ import like.redis.protocal.Resp;
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2021/12/31 17:43
  */
-public class ResponseEncoder extends MessageToByteEncoder<Resp> {
+public class RespEncoder extends MessageToByteEncoder<Resp> {
 
     @Override
     protected void encode(final ChannelHandlerContext ctx, final Resp resp, final ByteBuf out) throws Exception {
