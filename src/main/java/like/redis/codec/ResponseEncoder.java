@@ -3,7 +3,7 @@ package like.redis.codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import like.redis.resp.Resp;
+import like.redis.protocal.Resp;
 
 /**
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
@@ -13,6 +13,11 @@ public class ResponseEncoder extends MessageToByteEncoder<Resp> {
 
     @Override
     protected void encode(final ChannelHandlerContext ctx, final Resp resp, final ByteBuf out) throws Exception {
-        Resp.write(resp, out);
+        try {
+            Resp.write(resp, out);
+            out.writeBytes(out);
+        } catch (Exception e) {
+            ctx.close();
+        }
     }
 }
