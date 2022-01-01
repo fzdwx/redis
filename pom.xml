@@ -9,8 +9,11 @@
     <version>0.1</version>
 
     <properties>
+        <java.version>17</java.version>
+
         <netty4.version>4.1.72.Final</netty4.version>
         <lombok.version>1.18.22</lombok.version>
+        <junit.version>5.8.0</junit.version>
     </properties>
 
 
@@ -25,5 +28,24 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
