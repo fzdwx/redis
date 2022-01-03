@@ -8,6 +8,7 @@ import like.redis.command.Command;
 import like.redis.command.CommandType;
 import like.redis.protocal.Resp;
 import like.redis.protocal.RespBulkStrings;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Locale;
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2022/1/3 18:12
  */
+@Slf4j
 public class Scan implements Command {
 
     private int start;
@@ -37,7 +39,7 @@ public class Scan implements Command {
     public void setContent(final Resp[] array) {
         final List<Resp> respList = ListUtil.of(array);
         final String command = CollUtil.join(CollUtil.map(respList, resp -> ((RespBulkStrings) resp).content().toString().toLowerCase(Locale.ROOT), true), " ");
-
+        log.info("test-------------------------------------");
         System.out.println(command);
     }
 
