@@ -1,16 +1,13 @@
 package like.redis.util;
 
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.internal.logging.InternalLogger;
-import io.netty.util.internal.logging.InternalLoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2022/1/3 11:18
  */
+@Slf4j
 public class LogUtil {
-
-    private static final InternalLogger log = InternalLoggerFactory.getInstance(NioServerSocketChannel.class);
 
     private static final String MSG_PREFIX = "[ Redis server ] |- ";
 
@@ -55,7 +52,7 @@ public class LogUtil {
     public static void debug(String msg) {
         log.debug(MSG_PREFIX + msg);
     }
-    
+
     // ===================================================
 
     public static void error(String format, Object arg) {

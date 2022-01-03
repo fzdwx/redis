@@ -29,6 +29,7 @@ public class Ping implements Command {
 
     @Override
     public void handle(final ChannelHandlerContext ctx, final RedisCore redisCore) {
-        ctx.writeAndFlush(RespSimpleStrings.of("PONG"));
+        ctx.write(RespSimpleStrings.of("PONG"));
+        ctx.flush();
     }
 }

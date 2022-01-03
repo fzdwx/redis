@@ -21,15 +21,15 @@ public class RedisCommandHandler extends SimpleChannelInboundHandler<Command> {
 
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final Command command) throws Exception {
-        LogUtil.debug("开始处理命令 {}", command.type().name());
+        LogUtil.debug("start process command [{}]", command.type().name());
 
         try {
             command.handle(ctx, redisCore);
         } catch (Exception e) {
-            LogUtil.error("处理失败  command : {}", command.type().name(), e);
+            LogUtil.error("process fail command [{}]", command.type().name(), e);
         }
 
-        LogUtil.debug("处理完毕 {}", command.type().name());
+        LogUtil.debug("process finish [{}]", command.type().name());
     }
 
     @Override
