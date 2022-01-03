@@ -1,6 +1,6 @@
 package like.redis.datatype;
 
-import like.redis.util.CharsetKit;
+import like.redis.common.Common;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -11,19 +11,18 @@ import java.util.Arrays;
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2021/12/31 17:52
  */
-public class BytesWrapper implements Comparable<BytesWrapper> {
-
-    @Getter
-    private final byte[] content;
-
-    public BytesWrapper(byte[] content) {
-        this.content = content;
-    }
+public record BytesWrapper(@Getter byte[] content) implements Comparable<BytesWrapper> {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         final BytesWrapper that = (BytesWrapper) o;
         return Arrays.equals(content, that.content);
     }
@@ -36,11 +35,11 @@ public class BytesWrapper implements Comparable<BytesWrapper> {
     @Override
     public int compareTo(BytesWrapper o) {
         int len1 = content.length;
-        int len2 = o.getContent().length;
+        int len2 = o.content().length;
 
         int min = Math.min(len1, len2);
 
-        byte v2[] = o.getContent();
+        byte[] v2 = o.content();
 
         int k = 0;
         while (k < min) {
@@ -56,6 +55,6 @@ public class BytesWrapper implements Comparable<BytesWrapper> {
 
     @Override
     public String toString() {
-        return new String(content, CharsetKit.UTF8);
+        return new String(content, Common.UTF8);
     }
 }
