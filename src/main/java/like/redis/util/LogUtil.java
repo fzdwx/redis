@@ -1,15 +1,18 @@
 package like.redis.util;
 
-import lombok.extern.slf4j.Slf4j;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 /**
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2022/1/3 11:18
  */
-@Slf4j
 public class LogUtil {
 
-    private static final String MSG_PREFIX = "[Redis server ]|- ";
+    private static final InternalLogger log = InternalLoggerFactory.getInstance(NioServerSocketChannel.class);
+
+    private static final String MSG_PREFIX = "[ Redis server ] |- ";
 
     public static void trace(String msg) {
         log.trace(MSG_PREFIX + msg);
@@ -74,8 +77,48 @@ public class LogUtil {
     public static void error(String msg) {
         log.error(MSG_PREFIX + msg);
     }
-    
+
     // ===================================================
 
+    public static void info(String format, Object arg) {
+        log.info(MSG_PREFIX + format, arg);
+    }
 
+    public static void info(String format, Object arg1, Object arg2) {
+        log.info(MSG_PREFIX + format, arg1, arg2);
+    }
+
+    public static void info(String format, Object... arguments) {
+        log.info(MSG_PREFIX, arguments);
+    }
+
+    public static void info(String msg, Throwable t) {
+        log.info(MSG_PREFIX + msg, t);
+    }
+
+    public static void info(String msg) {
+        log.info(MSG_PREFIX + msg);
+    }
+
+    // ===================================================
+
+    public static void warn(String format, Object arg) {
+        log.warn(MSG_PREFIX + format, arg);
+    }
+
+    public static void warn(String format, Object arg1, Object arg2) {
+        log.warn(MSG_PREFIX + format, arg1, arg2);
+    }
+
+    public static void warn(String format, Object... arguments) {
+        log.warn(MSG_PREFIX, arguments);
+    }
+
+    public static void warn(String msg, Throwable t) {
+        log.warn(MSG_PREFIX + msg, t);
+    }
+
+    public static void warn(String msg) {
+        log.warn(MSG_PREFIX + msg);
+    }
 }

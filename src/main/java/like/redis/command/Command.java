@@ -41,9 +41,9 @@ public interface Command {
             return from(simpleStrings);
         }
 
-        LogUtil.error("客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：{}",resp.getClass().toString());
+        LogUtil.error("客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：{}", resp.getClass().toString());
 
-        throw new IllegalStateException("[Redis server ]|- 客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：" + resp.getClass().toString());
+        throw new IllegalStateException("客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：" + resp.getClass().toString());
     }
 
     /**
@@ -69,21 +69,31 @@ public interface Command {
     void handle(ChannelHandlerContext ctx, RedisCore redisCore);
 
 
+    /**
+     * 从resp数组中获取index处对应的content
+     *
+     * @param array resp array
+     * @return {@link String }
+     */
+    static String getContentFromArray(Resp[] array, int index) {
+        return ((RespBulkStrings) array[index]).content().toString().toLowerCase();
+    }
+
     private static Command from(RespArrays arrays) {
         final Resp[] respArrays = arrays.array();
 
-        final String commandName = ((RespBulkStrings) respArrays[0]).content().toString().toLowerCase();
+        final String commandName = getContentFromArray(respArrays, 0);
 
         final Supplier<Command> commandSupplier = commandMap.get(commandName);
         if (commandSupplier == null) {
-            LogUtil.error("不支持的命令 {}",commandName);
+            LogUtil.error("不支持的命令 [{}]", commandName);
         } else {
             try {
                 final Command command = commandSupplier.get();
                 command.setContent(respArrays);
                 return command;
             } catch (Exception e) {
-                LogUtil.error("不支持的命令 {}",commandName,e);
+                LogUtil.error("不支持的命令 [{}]", commandName, e);
             }
         }
         return null;
@@ -94,12 +104,12 @@ public interface Command {
 
         final Supplier<Command> commandSupplier = commandMap.get(commandName);
         if (commandSupplier == null) {
-            LogUtil.error("不支持的命令 {}",commandName);
+            LogUtil.error("不支持的命令 [{}]", commandName);
         } else {
             try {
                 return commandSupplier.get();
             } catch (Exception e) {
-                LogUtil.error("不支持的命令 {}",commandName,e);
+                LogUtil.error("不支持的命令 [{}]", commandName, e);
             }
         }
         return null;

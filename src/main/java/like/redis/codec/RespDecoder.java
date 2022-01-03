@@ -6,16 +6,13 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import like.redis.command.Command;
 import like.redis.protocal.Resp;
 import like.redis.protocal.RespArrays;
-import like.redis.protocal.RespBulkStrings;
 import like.redis.protocal.RespErrors;
 import like.redis.util.LogUtil;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2022/1/3 10:39
  */
-@Slf4j
 public class RespDecoder extends LengthFieldBasedFrameDecoder {
 
     private static final int MAX_FRAME_LENGTH = Integer.MAX_VALUE;
@@ -33,7 +30,8 @@ public class RespDecoder extends LengthFieldBasedFrameDecoder {
 
                 Command command = Command.from(resp);
                 if (command == null) {
-                    ctx.writeAndFlush(new RespErrors("unSupport command:" + ((RespBulkStrings) ((RespArrays) resp).array()[0]).content().toString()));
+                    final String commandName = Command.getContentFromArray(((RespArrays) resp).array(),0);
+                    ctx.writeAndFlush(new RespErrors("unSupport command : [" + commandName + "]"));
                 } else {
                     // TODO: 2022/1/3 aof
                     return command;
