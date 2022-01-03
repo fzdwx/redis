@@ -30,8 +30,8 @@ public class RespDecoder extends LengthFieldBasedFrameDecoder {
 
                 Command command = Command.from(resp);
                 if (command == null) {
-                    final String commandName = Command.getContentFromArray(((RespArrays) resp).array(),0);
-                    ctx.writeAndFlush(new RespErrors("unSupport command : [" + commandName + "]"));
+                    final String commandName = Command.getContentStringFromArray(((RespArrays) resp).array(), 0);
+                    ctx.writeAndFlush(RespErrors.of("unSupport command : [" + commandName + "]"));
                 } else {
                     // TODO: 2022/1/3 aof
                     return command;

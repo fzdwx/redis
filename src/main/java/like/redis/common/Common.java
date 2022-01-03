@@ -9,5 +9,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class Common {
 
+    public static final String OS_NAME = "os.name";
+    public static String REDIS_VERSION = "0.1";
+
     public static Charset UTF8 = StandardCharsets.UTF_8;
 }

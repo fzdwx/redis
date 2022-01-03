@@ -11,4 +11,7 @@ import lombok.Getter;
  */
 public record RespErrors(@Getter String content) implements Resp {
 
+    public static RespErrors of(String content) {
+        return new RespErrors(content);
+    }
 }

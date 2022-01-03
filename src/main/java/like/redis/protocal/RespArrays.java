@@ -2,6 +2,8 @@ package like.redis.protocal;
 
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * 数组
  * <p>
@@ -28,9 +30,13 @@ import lombok.Getter;
  * 例如，当 BLPOP 命令超时，它会返回一个空数组，数组的计数器是-1 :
  * <p>
  * "*-1\r\n"
+ *
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2021/12/31 17:59
  */
 public record RespArrays(@Getter Resp[] array) implements Resp {
 
+    public static RespArrays of(final List<Resp> array) {
+        return new RespArrays(array.toArray(new Resp[0]));
+    }
 }

@@ -5,6 +5,7 @@ import like.redis.RedisCore;
 import like.redis.command.Command;
 import like.redis.command.CommandConstants;
 import like.redis.command.CommandType;
+import like.redis.datatype.BytesWrapper;
 import like.redis.protocal.Resp;
 import like.redis.protocal.RespSimpleStrings;
 import like.redis.util.LogUtil;
@@ -14,6 +15,7 @@ import java.util.Objects;
 /**
  * command client.
  * <p>
+ * client set [client name]
  * 保存客户端连接
  *
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
@@ -32,7 +34,7 @@ public class Client implements Command {
     @Override
     public void setContent(final Resp[] array) {
         this.array = array;
-        this.subCommand = Command.getContentFromArray(array, 1);
+        this.subCommand = Command.getContentStringFromArray(array, 1);
     }
 
     @Override
@@ -40,12 +42,12 @@ public class Client implements Command {
 
         if (Objects.equals(subCommand, CommandConstants.SET_NAME)) {
 
-            final String connectionName = Command.getContentFromArray(array, 2);
+            final BytesWrapper connectionName = Command.getContentFromArray(array, 2);
 
-            redisCore.addClient(connectionName, ctx.channel());
+            redisCore.put(ctx.channel(), connectionName);
 
         } else {
-            LogUtil.error("un Support command [{}]", subCommand);
+            LogUtil.error("不支持的命令 [{}]", subCommand);
         }
 
         ctx.writeAndFlush(RespSimpleStrings.OK);

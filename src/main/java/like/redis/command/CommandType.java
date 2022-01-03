@@ -1,7 +1,6 @@
 package like.redis.command;
 
-import like.redis.command.impl.Client;
-import like.redis.command.impl.Ping;
+import like.redis.command.impl.*;
 
 import java.util.function.Supplier;
 
@@ -13,7 +12,7 @@ public enum CommandType {
 
 
     //
-    ping(Ping::new), client(Client::new);
+    ping(Ping::new), client(Client::new), config(Config::new), info(Info::new), scan(Scan::new);
 
     private final Supplier<Command> supplier;
 

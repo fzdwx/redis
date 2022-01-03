@@ -6,7 +6,9 @@ package like.redis.command;
  */
 public interface CommandConstants {
 
-    static String PING = "ping";
-    static String CLIENT = "client";
-    static String SET_NAME = "setname";
+    String PING = "ping";
+    String CLIENT = "client";
+    String SET_NAME = "setname";
+    String GET = "get";
+    String DATABASES = "databases";
 }

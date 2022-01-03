@@ -2,6 +2,7 @@ package like.redis.command;
 
 import io.netty.channel.ChannelHandlerContext;
 import like.redis.RedisCore;
+import like.redis.datatype.BytesWrapper;
 import like.redis.protocal.Resp;
 import like.redis.protocal.RespArrays;
 import like.redis.protocal.RespBulkStrings;
@@ -18,6 +19,28 @@ import java.util.function.Supplier;
  * @date 2022/1/3 10:54
  */
 public interface Command {
+
+    /**
+     * 获取接口类型
+     *
+     * @return 接口类型
+     */
+    CommandType type();
+
+    /**
+     * 注入属性
+     *
+     * @param array 操作数组
+     */
+    void setContent(Resp[] array);
+
+    /**
+     * 处理消息命令
+     *
+     * @param ctx       管道
+     * @param redisCore redis数据库
+     */
+    void handle(ChannelHandlerContext ctx, RedisCore redisCore);
 
     Map<String, Supplier<Command>> commandMap = new HashMap<>() {
         {
@@ -46,43 +69,18 @@ public interface Command {
         throw new IllegalStateException("客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：" + resp.getClass().toString());
     }
 
-    /**
-     * 获取接口类型
-     *
-     * @return 接口类型
-     */
-    CommandType type();
-
-    /**
-     * 注入属性
-     *
-     * @param array 操作数组
-     */
-    void setContent(Resp[] array);
-
-    /**
-     * 处理消息命令
-     *
-     * @param ctx       管道
-     * @param redisCore redis数据库
-     */
-    void handle(ChannelHandlerContext ctx, RedisCore redisCore);
-
-
-    /**
-     * 从resp数组中获取index处对应的content
-     *
-     * @param array resp array
-     * @return {@link String }
-     */
-    static String getContentFromArray(Resp[] array, int index) {
+    static String getContentStringFromArray(Resp[] array, int index) {
         return ((RespBulkStrings) array[index]).content().toString().toLowerCase();
+    }
+
+    static BytesWrapper getContentFromArray(Resp[] array, int index) {
+        return ((RespBulkStrings) array[index]).content();
     }
 
     private static Command from(RespArrays arrays) {
         final Resp[] respArrays = arrays.array();
 
-        final String commandName = getContentFromArray(respArrays, 0);
+        final String commandName = getContentStringFromArray(respArrays, 0);
 
         final Supplier<Command> commandSupplier = commandMap.get(commandName);
         if (commandSupplier == null) {
