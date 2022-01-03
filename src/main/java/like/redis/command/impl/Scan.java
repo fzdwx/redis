@@ -28,7 +28,7 @@ public class Scan implements Command {
 
     private int start;
     private String pattern;
-    private int count;
+    private int count = 10;
 
     @Override
     public CommandType type() {

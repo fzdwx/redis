@@ -8,19 +8,15 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
+/**
+ * config properties util.
+ *
+ * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
+ * @date 2022/01/03 18:54:10
+ */
 public class PropertiesUtil {
 
     private PropertiesUtil() {
-    }
-
-    private static PropertiesUtil Instance = new PropertiesUtil();
-
-    public static PropertiesUtil getInstance() {
-        return Instance;
-    }
-
-    public static Properties getProParams() {
-        return PropertiesUtil.getInstance().getProParams("/redis_conf.properties");
     }
 
     public static String getNodeAddress() {
@@ -72,8 +68,18 @@ public class PropertiesUtil {
         return port;
     }
 
-    private Properties getProParams(String propertiesName) {
-        InputStream is = getClass().getResourceAsStream(propertiesName);
+    private static final PropertiesUtil INSTANCE = new PropertiesUtil();
+
+    private static PropertiesUtil getInstance() {
+        return INSTANCE;
+    }
+
+    private static Properties getProParams() {
+        return PropertiesUtil.getInstance().getProParams("/redis_conf.properties");
+    }
+
+    private Properties getProParams(String propertiesFileName) {
+        InputStream is = getClass().getResourceAsStream(propertiesFileName);
         Properties prop = new Properties();
         try {
             prop.load(is);
