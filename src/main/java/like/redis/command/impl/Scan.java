@@ -39,7 +39,7 @@ public class Scan implements Command {
     public void setContent(final Resp[] array) {
         final List<Resp> respList = ListUtil.of(array);
         final String command = CollUtil.join(CollUtil.map(respList, resp -> ((RespBulkStrings) resp).content().toString().toLowerCase(Locale.ROOT), true), " ");
-        log.info("test-------------------------------------");
+        log.info("test---------------------------------------");
         System.out.println(command);
     }
 
