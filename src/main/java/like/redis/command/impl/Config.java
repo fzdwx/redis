@@ -5,10 +5,7 @@ import like.redis.RedisCore;
 import like.redis.command.Command;
 import like.redis.command.CommandConstants;
 import like.redis.command.CommandType;
-import like.redis.protocal.Resp;
-import like.redis.protocal.RespArrays;
-import like.redis.protocal.RespBulkStrings;
-import like.redis.protocal.RespErrors;
+import like.redis.protocal.*;
 import like.redis.util.LogUtil;
 
 import java.util.ArrayList;
@@ -52,9 +49,11 @@ public class Config implements Command {
             final List<Resp> list = new ArrayList<>();
 
             list.add(RespBulkStrings.of("databases"));
-            list.add(RespBulkStrings.of("1"));
+            list.add(RespBulkStrings.of("16"));
 
             ctx.writeAndFlush(RespArrays.of(list));
+        } else if (subCommand.equals(CommandConstants.DB)) {
+            ctx.writeAndFlush(RespIntegers.of(redisCore.getClientUseDb(ctx.channel())));
         } else {
             ctx.writeAndFlush(RespErrors.of("un Support command [config]: " + subCommand));
             LogUtil.error("未识别的config命令:" + subCommand);

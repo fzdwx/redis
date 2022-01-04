@@ -68,39 +68,4 @@ public class RedisCoreImpl implements RedisCore {
     private ConcurrentSkipListMap<BytesWrapper, RedisDataStructure> currentDb(final Channel channel) {
         return DBS.get(getClientUseDb(channel));
     }
-
-    /**
-     * 设置客户端使用的db（0~15）
-     *
-     * @param channel 通道
-     * @param dbNo    db 编号
-     */
-    private void setClientUseDb(final Channel channel, final int dbNo) {
-        channel.attr(AttributeKey.valueOf(Common.ATTR_CONNECTION_DB_NO)).set(dbNo);
-    }
-
-    /**
-     * 获取客户端使用的db（0~15）
-     *
-     * @param channel 通道
-     * @return int 使用的db编号
-     */
-    private int getClientUseDb(final Channel channel) {
-        final AttributeKey<Integer> attrKey = AttributeKey.valueOf(Common.ATTR_CONNECTION_DB_NO);
-        final Integer dbNo = channel.attr(attrKey).get();
-        if (dbNo == null) {
-            channel.attr(attrKey).set(Common.DEFAULT_DB);
-        }
-        return channel.attr(attrKey).get();
-    }
-
-    /**
-     * 设置客户端连接名
-     *
-     * @param channel        通道
-     * @param connectionName 连接名
-     */
-    private void setClientName(final Channel channel, final BytesWrapper connectionName) {
-        channel.attr(AttributeKey.valueOf(Common.ATTR_CONNECTION_CONNECTION_NAME)).set(connectionName);
-    }
 }

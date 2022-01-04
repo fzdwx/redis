@@ -11,4 +11,5 @@ public interface CommandConstants {
     String SET_NAME = "setname";
     String GET = "get";
     String DATABASES = "databases";
+    String DB = "db";
 }
