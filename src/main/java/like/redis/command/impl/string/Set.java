@@ -38,7 +38,7 @@ public class Set implements Command {
 
     @Override
     public void handle(final ChannelHandlerContext ctx, final RedisCore redisCore) {
-        final var oldData = redisCore.put(key, RedisString.create(value));
+        final var oldData = redisCore.put(ctx.channel(),key, RedisString.create(value));
         if (oldData instanceof RedisString s) {
             ctx.writeAndFlush(RespBulkStrings.of(s.value()));
         } else {

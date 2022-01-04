@@ -34,7 +34,7 @@ public class Get implements Command {
 
     @Override
     public void handle(final ChannelHandlerContext ctx, final RedisCore redisCore) {
-        final var data = redisCore.get(key);
+        final var data = redisCore.get(ctx.channel(),key);
 
         if (data == null) {
             ctx.writeAndFlush(RespBulkStrings.NULL_BULK_STRING);

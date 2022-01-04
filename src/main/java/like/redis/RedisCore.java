@@ -19,19 +19,29 @@ public interface RedisCore {
     void saveClient(Channel channel, BytesWrapper content);
 
     /**
+     * 切换数据库
+     *
+     * @param channel 通道
+     * @param dbNo    数据库编号
+     */
+    void switchDb(Channel channel, int dbNo);
+
+    /**
      * 存放数据
      *
+     * @param channel
      * @param key       关键
      * @param redisData redis 数据结构
      * @return 旧值（如果不是第一次put）
      */
-    RedisDataStructure put(BytesWrapper key, RedisDataStructure redisData);
+    RedisDataStructure put(final Channel channel, BytesWrapper key, RedisDataStructure redisData);
 
     /**
      * 获取数据
      *
-     * @param key key
+     * @param channel
+     * @param key     key
      * @return {@link RedisDataStructure }
      */
-    RedisDataStructure get(BytesWrapper key);
+    RedisDataStructure get(final Channel channel, BytesWrapper key);
 }

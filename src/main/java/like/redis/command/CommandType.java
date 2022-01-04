@@ -13,11 +13,11 @@ import java.util.function.Supplier;
 public enum CommandType {
 
     // common
-    ping(Ping::new), client(Client::new), config(Config::new), info(Info::new), scan(Scan::new),
+    ping(Ping::new), client(Client::new), config(Config::new), info(Info::new), scan(Scan::new), select(Select::new),
     // command(CommandImpl::new)
 
     // string
-    set(Set::new), get(Get::new);
+    set(Set::new),get(Get::new),;
 
     private final Supplier<Command> supplier;
 
@@ -28,4 +28,4 @@ public enum CommandType {
     public Supplier<Command> getSupplier() {
         return supplier;
     }
-}
+    }
