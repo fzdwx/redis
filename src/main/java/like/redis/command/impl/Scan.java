@@ -1,18 +1,16 @@
 package like.redis.command.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.ListUtil;
 import io.netty.channel.ChannelHandlerContext;
 import like.redis.RedisCore;
 import like.redis.command.Command;
 import like.redis.command.CommandType;
 import like.redis.protocal.Resp;
+import like.redis.protocal.RespArrays;
 import like.redis.protocal.RespBulkStrings;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * command scan.
@@ -37,8 +35,7 @@ public class Scan implements Command {
 
     @Override
     public void setContent(final Resp[] array) {
-        final List<Resp> respList = ListUtil.of(array);
-        final String command = CollUtil.join(CollUtil.map(respList, resp -> ((RespBulkStrings) resp).content().toString().toLowerCase(Locale.ROOT), true), " ");
+        final String command = RespArrays.stringify(array);
         System.out.println(command);
     }
 

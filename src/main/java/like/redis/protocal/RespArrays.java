@@ -1,8 +1,11 @@
 package like.redis.protocal;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 数组
@@ -38,5 +41,13 @@ public record RespArrays(@Getter Resp[] array) implements Resp {
 
     public static RespArrays of(final List<Resp> array) {
         return new RespArrays(array.toArray(new Resp[0]));
+    }
+
+    public static String stringify(Resp[] array) {
+        return CollUtil.join(CollUtil.map(ListUtil.toList(array), resp -> ((RespBulkStrings) resp).content().toString().toLowerCase(Locale.ROOT), true), " ");
+    }
+
+    public String stringify() {
+        return stringify(array);
     }
 }

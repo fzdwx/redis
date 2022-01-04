@@ -34,7 +34,7 @@ public class Client implements Command {
     @Override
     public void setContent(final Resp[] array) {
         this.array = array;
-        this.subCommand = Command.getContentStringFromArray(array, 1);
+        this.subCommand = Command.getContent(array, 1);
     }
 
     @Override
@@ -42,12 +42,12 @@ public class Client implements Command {
 
         if (Objects.equals(subCommand, CommandConstants.SET_NAME)) {
 
-            final BytesWrapper connectionName = Command.getContentFromArray(array, 2);
+            final BytesWrapper connectionName = Command.getBytesWrapper(array, 2);
 
-            redisCore.put(ctx.channel(), connectionName);
+            redisCore.saveClient(ctx.channel(), connectionName);
 
         } else {
-            LogUtil.error("不支持的命令 [{}]", subCommand);
+            LogUtil.error("[Client] 不支持的命令 [{}]", subCommand);
         }
 
         ctx.writeAndFlush(RespSimpleStrings.OK);

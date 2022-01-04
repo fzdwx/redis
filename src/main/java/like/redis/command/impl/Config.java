@@ -39,11 +39,11 @@ public class Config implements Command {
             throw new IllegalStateException(Arrays.toString(array));
         }
 
-        if (!Command.getContentStringFromArray(array, 1).equals(CommandConstants.GET)) {
+        if (!Command.getContent(array, 1).equals(CommandConstants.GET)) {
             throw new IllegalStateException(Arrays.toString(array));
         }
 
-        this.subCommand = Command.getContentStringFromArray(array, 2);
+        this.subCommand = Command.getContent(array, 2);
     }
 
     @Override

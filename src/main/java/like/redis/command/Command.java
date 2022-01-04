@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
+ * command.
+ *
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2022/1/3 10:54
  */
@@ -30,7 +32,7 @@ public interface Command {
     /**
      * 注入属性
      *
-     * @param array 操作数组
+     * @param array resp 数组
      */
     void setContent(Resp[] array);
 
@@ -69,29 +71,29 @@ public interface Command {
         throw new IllegalStateException("客户端发送的命令应该只能是Resp Array 和 单行命令 类型，resp类型：" + resp.getClass().toString());
     }
 
-    static String getContentStringFromArray(Resp[] array, int index) {
+    static String getContent(Resp[] array, int index) {
         return ((RespBulkStrings) array[index]).content().toString().toLowerCase();
     }
 
-    static BytesWrapper getContentFromArray(Resp[] array, int index) {
+    static BytesWrapper getBytesWrapper(Resp[] array, int index) {
         return ((RespBulkStrings) array[index]).content();
     }
 
     private static Command from(RespArrays arrays) {
         final Resp[] respArrays = arrays.array();
 
-        final String commandName = getContentStringFromArray(respArrays, 0);
+        final String commandName = getContent(respArrays, 0);
 
         final Supplier<Command> commandSupplier = commandMap.get(commandName);
         if (commandSupplier == null) {
-            LogUtil.error("不支持的命令 [{}]", commandName);
+            LogUtil.error("[Command from] 不支持的命令 [{}]", commandName);
         } else {
             try {
                 final Command command = commandSupplier.get();
                 command.setContent(respArrays);
                 return command;
             } catch (Exception e) {
-                LogUtil.error("不支持的命令 [{}]", commandName, e);
+                LogUtil.error("[Command from] 不支持的命令 [{}]", commandName, e);
             }
         }
         return null;
@@ -102,12 +104,12 @@ public interface Command {
 
         final Supplier<Command> commandSupplier = commandMap.get(commandName);
         if (commandSupplier == null) {
-            LogUtil.error("不支持的命令 [{}]", commandName);
+            LogUtil.error("[Command from] 不支持的命令 [{}]", commandName);
         } else {
             try {
                 return commandSupplier.get();
             } catch (Exception e) {
-                LogUtil.error("不支持的命令 [{}]", commandName, e);
+                LogUtil.error("[Command from] 不支持的命令 [{}]", commandName, e);
             }
         }
         return null;

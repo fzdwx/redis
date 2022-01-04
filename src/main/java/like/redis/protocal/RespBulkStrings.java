@@ -27,8 +27,12 @@ public record RespBulkStrings(@Getter BytesWrapper content) implements Resp {
 
     public static final RespBulkStrings NULL_BULK_STRING = new RespBulkStrings(null);
 
+    public static RespBulkStrings of(final BytesWrapper content) {
+        return new RespBulkStrings(content);
+    }
+
     public static RespBulkStrings of(final String content) {
-        return new RespBulkStrings(new BytesWrapper(content.getBytes(Common.UTF8)));
+        return of(new BytesWrapper(content.getBytes(Common.UTF8)));
     }
 
     public static RespBulkStrings of(final List<String> contents) {
