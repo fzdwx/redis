@@ -8,6 +8,7 @@ import like.redis.protocal.RespBulkStrings;
 import like.redis.protocal.RespErrors;
 import like.redis.protocal.RespIntegers;
 import like.redis.protocal.RespSimpleStrings;
+import lombok.SneakyThrows;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -49,12 +50,17 @@ public record CommandSender(Channel serverChannel) implements Runnable {
         };
     }
 
+    @SneakyThrows
     @Override
     public void run() {
         print(PREFIX);
         while (true) {
             final var str = SCANNER.nextLine();
+
+            // send command
             serverChannel.writeAndFlush(RespArrays.of(StrUtil.split(str, " ").stream().map(RespBulkStrings::of).collect(Collectors.toList())));
+
+            // mark cost time
             markTime();
         }
     }
