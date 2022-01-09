@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * @author <a href="mailto:likelovec@gmail.com">like</a>
  * @date 2022/1/9 14:13
  */
-class RespClientDecoder extends LengthFieldBasedFrameDecoder {
+public class RespClientDecoder extends LengthFieldBasedFrameDecoder {
 
     private static final int MAX_FRAME_LENGTH = Integer.MAX_VALUE;
 

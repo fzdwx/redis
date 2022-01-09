@@ -23,7 +23,7 @@ All of the above can be learned from the [RESP Protocol](https://www.redis.com.c
 
 ## Simple Redis Client Impl
 
-[redis client](/src/main/java/like/redis/client/RedisClient.java) can connect redis server,and send command
+[redis client](/src/main/java/like/redis/RedisClient.java) can connect redis server,and send command
 use `RespBulkStrings` dateType,client will submit a task
 => [command sender](/src/main/java/like/redis/client/CommandSender.java),they will send command and print response
 information returned by the server.

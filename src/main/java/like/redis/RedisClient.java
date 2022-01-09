@@ -1,4 +1,4 @@
-package like.redis.client;
+package like.redis;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -8,6 +8,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
+import like.redis.client.CommandSender;
+import like.redis.client.RespClientDecoder;
 import like.redis.codec.RespEncoder;
 import like.redis.util.PropertiesUtil;
 import lombok.SneakyThrows;
