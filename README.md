@@ -13,7 +13,7 @@ Please see
 5. [resp integer](/src/main/java/like/redis/protocal/RespIntegers.java) is integer of resp
 6. [resp error](/src/main/java/like/redis/protocal/RespErrors.java) is error of resp
 
-All of the above can be learned from the [RESP Protocol](https://www.redis.com.cn/topics/protocol.html)
+All of the above can be learned from the [RESP Protocol](https://redis.io/topics/protocol)
 
 ## Redis Server Impl
 
