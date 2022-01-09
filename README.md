@@ -1,6 +1,6 @@
 # Redis Java
 
-Use _Netty 4.1.66.Final_ with :rocket: _JDK 17_**(learning)**
+Use _Netty 4.1.66.Final_ with _JDK 17_**(learning)**
 
 ## Redis RESP Protocol
 
@@ -22,3 +22,10 @@ All of the above can be learned from the [RESP Protocol](https://www.redis.com.c
    switch db.
 
 ## Simple Redis Client Impl
+
+[redis client](/src/main/java/like/redis/client/RedisClient.java) can connect redis server,and send command
+use `RespBulkStrings` dateType,client will submit a task
+=> [command sender](/src/main/java/like/redis/client/CommandSender.java),they will send command and print response
+information returned by the server.
+
+1. [command sender](/src/main/java/like/redis/client/CommandSender.java#run)

@@ -23,17 +23,18 @@ public class RedisClient {
 
     final static Bootstrap client = new Bootstrap();
 
+    final static NioEventLoopGroup clientEventGroup = new NioEventLoopGroup(2, new ThreadFactory() {
+
+        final AtomicInteger index = new AtomicInteger(0);
+
+        @Override
+        public Thread newThread(final Runnable r) {
+            return new Thread(r, "redis_client_" + index.getAndIncrement());
+        }
+    });
+
     @SneakyThrows
     public static void main(String[] args) {
-        final var clientEventGroup = new NioEventLoopGroup(2, new ThreadFactory() {
-
-            final AtomicInteger index = new AtomicInteger(0);
-
-            @Override
-            public Thread newThread(final Runnable r) {
-                return new Thread(r, "redis_client_" + index.getAndIncrement());
-            }
-        });
         client.group(clientEventGroup);
         client.channel(NioSocketChannel.class);
         client.handler(new LoggingHandler(LogLevel.INFO));
