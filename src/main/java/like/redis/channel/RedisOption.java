@@ -3,7 +3,7 @@ package like.redis.channel;
 import io.netty.channel.EventLoopGroup;
 
 import io.netty.channel.Channel;
-import like.redis.RedisCore;
+import like.redis.server.RedisCore;
 
 /**
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>

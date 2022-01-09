@@ -1,7 +1,7 @@
 package like.redis.command.impl;
 
 import io.netty.channel.ChannelHandlerContext;
-import like.redis.RedisCore;
+import like.redis.server.RedisCore;
 import like.redis.command.Command;
 import like.redis.command.CommandType;
 import like.redis.protocal.Resp;

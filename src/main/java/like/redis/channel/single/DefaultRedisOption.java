@@ -4,8 +4,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import like.redis.RedisCore;
-import like.redis.RedisCoreImpl;
+import like.redis.server.RedisCore;
+import like.redis.server.RedisCoreImpl;
 import like.redis.channel.RedisOption;
 
 import java.util.concurrent.ThreadFactory;

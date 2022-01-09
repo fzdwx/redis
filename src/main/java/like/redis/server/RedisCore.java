@@ -1,4 +1,4 @@
-package like.redis;
+package like.redis.server;
 
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;

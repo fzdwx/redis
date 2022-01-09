@@ -1,4 +1,4 @@
-package like.redis;
+package like.redis.server;
 
 /**
  * redis server.

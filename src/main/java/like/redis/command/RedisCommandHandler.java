@@ -2,7 +2,7 @@ package like.redis.command;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import like.redis.RedisCore;
+import like.redis.server.RedisCore;
 import like.redis.util.LogUtil;
 
 /**

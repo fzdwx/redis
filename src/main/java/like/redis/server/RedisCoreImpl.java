@@ -1,7 +1,6 @@
-package like.redis;
+package like.redis.server;
 
 import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
 import like.redis.common.Common;
 import like.redis.datatype.BytesWrapper;
 import like.redis.datatype.RedisDataStructure;
