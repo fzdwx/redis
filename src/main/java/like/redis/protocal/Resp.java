@@ -8,7 +8,6 @@ import java.util.Objects;
 
 /**
  * redis 客户端和服务端之间通信的协议是RESP（REdis Serialization Protocol）
- *
  * @author <a href="mailto:likelovec@gmail.com">韦朕</a>
  * @date 2021/12/31 17:44
  */
@@ -16,7 +15,6 @@ public interface Resp {
 
     /**
      * 将{@link Resp} 写到客户端
-     *
      * @param resp 服务端响应
      * @param out  客户端入口buf
      */
@@ -59,7 +57,7 @@ public interface Resp {
         if (in.readableBytes() <= 0) {
             throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
         }
-        final char c = (char) in.readByte();
+        final char c = ( char ) in.readByte();
         if (c == '+') {
             return new RespSimpleStrings(getContent(in));
         } else if (c == '-') {
@@ -68,13 +66,13 @@ public interface Resp {
             return new RespIntegers(getNumber(in));
         } else if (c == '$') {
             final int length = getNumber(in);
-            if (in.readableBytes() < length + 2) {
-                throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
-            }
             byte[] content;
             if (length == -1) {
-                content = null;
+                return RespBulkStrings.NULL_BULK_STRING;
             } else {
+                if (in.readableBytes() < length + 2) {
+                    throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
+                }
                 content = new byte[length];
                 in.readBytes(content);
             }
@@ -101,7 +99,7 @@ public interface Resp {
     private static String getContent(ByteBuf in) {
         char c;
         StringBuilder builder = new StringBuilder();
-        while (in.readableBytes() > 0 && (c = (char) in.readByte()) != '\r') {
+        while (in.readableBytes() > 0 && (c = ( char ) in.readByte()) != '\r') {
             builder.append(c);
         }
         if (in.readableBytes() == 0 || in.readByte() != '\n') {
@@ -112,7 +110,7 @@ public interface Resp {
 
     private static int getNumber(ByteBuf buffer) {
         char t;
-        t = (char) buffer.readByte();
+        t = ( char ) buffer.readByte();
         boolean positive = true;
         int value = 0;
         // 错误（Errors）： 响应的首字节是 "-"
@@ -121,7 +119,7 @@ public interface Resp {
         } else {
             value = t - '0';
         }
-        while (buffer.readableBytes() > 0 && (t = (char) buffer.readByte()) != '\r') {
+        while (buffer.readableBytes() > 0 && (t = ( char ) buffer.readByte()) != '\r') {
             value = value * 10 + (t - '0');
         }
         if (buffer.readableBytes() == 0 || buffer.readByte() != '\n') {
@@ -137,43 +135,43 @@ public interface Resp {
      * 总是以 "\r\n" (CRLF) 结束
      */
     private static void newLine(ByteBuf out) {
-        out.writeByte((byte) '\r');
-        out.writeByte((byte) '\n');
+        out.writeByte(( byte ) '\r');
+        out.writeByte(( byte ) '\n');
     }
 
     /**
      * (+) 表示一个正确的状态信息
      */
     private static void normal(ByteBuf out) {
-        out.writeByte((byte) '+');
+        out.writeByte(( byte ) '+');
     }
 
     /**
      * (-) 表示一个错误信息
      */
     private static void error(ByteBuf out) {
-        out.writeByte((byte) '-');
+        out.writeByte(( byte ) '-');
     }
 
     /**
      * (:) 表示一个整数信息
      */
     private static void integer(ByteBuf out) {
-        out.writeByte((byte) ':');
+        out.writeByte(( byte ) ':');
     }
 
     /**
      * ($) 表示一个批量字符串信息
      */
     private static void bulkString(ByteBuf out) {
-        out.writeByte((byte) '$');
+        out.writeByte(( byte ) '$');
     }
 
     /**
      * (*) 表示一个数组信息
      */
     private static void array(ByteBuf out) {
-        out.writeByte((byte) '*');
+        out.writeByte(( byte ) '*');
     }
 
     private static void handleIntegers(final ByteBuf out, final RespIntegers i) {
@@ -217,14 +215,14 @@ public interface Resp {
         // null
         if (Objects.isNull(bytesWrapper)) {
             error(out);
-            out.writeByte((byte) '1');
+            out.writeByte(( byte ) '1');
             newLine(out);
 
         } else
             // 空值
             if (bytesWrapper.content().length == 0) {
 
-                out.writeByte((byte) '0');
+                out.writeByte(( byte ) '0');
                 newLine(out);
                 newLine(out);
 
@@ -240,7 +238,7 @@ public interface Resp {
     private static void foreachAndWrite(final ByteBuf out, final String content) {
         final var charArray = content.toCharArray();
         for (final char c : charArray) {
-            out.writeByte((byte) c);
+            out.writeByte(( byte ) c);
         }
     }
 }

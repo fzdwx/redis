@@ -39,4 +39,8 @@ public record RespBulkStrings(@Getter BytesWrapper content) implements Resp {
         final String s = contents.stream().map(name -> name + "\r\n").reduce((first, second) -> first + second).get();
         return of(s);
     }
+
+    public static RespBulkStrings of(final byte[] content) {
+        return of(new BytesWrapper(content));
+    }
 }
