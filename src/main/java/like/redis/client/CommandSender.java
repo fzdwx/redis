@@ -35,19 +35,24 @@ public record CommandSender(Channel serverChannel) implements Runnable {
     public static Consumer<Resp> respConsumer() {
         return resp -> {
             final var calculate = calculate();
-            if (resp instanceof RespSimpleStrings s)
-                println(s.content());
-            else if (resp instanceof RespBulkStrings bs)
-                println(bs.content());
-            else if (resp instanceof RespArrays arrays)
-                Arrays.stream(arrays.array()).forEach(respConsumer());
-            else if (resp instanceof RespErrors errors)
-                println("(error) " + errors.content());
-            else if (resp instanceof RespIntegers integers)
-                println("(int) " + integers.value());
+            printResp(resp);
             println("(cost " + calculate + " ms) ");
             print(PREFIX);
         };
+    }
+
+    private static void printResp(final Resp resp) {
+        if (resp instanceof RespSimpleStrings s) {
+            println(s.content());
+        } else if (resp instanceof RespBulkStrings bs) {
+            println(bs.content());
+        } else if (resp instanceof RespArrays arrays) {
+            Arrays.stream(arrays.array()).forEach(CommandSender::printResp);
+        } else if (resp instanceof RespErrors errors) {
+            println("(error) " + errors.content());
+        } else if (resp instanceof RespIntegers integers) {
+            println("(int) " + integers.value());
+        }
     }
 
     @SneakyThrows

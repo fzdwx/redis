@@ -57,7 +57,8 @@ public class RedisClient {
             }
         });
 
-        client.connect("localhost", 6379).sync();
+        // client.connect("localhost", 6379).sync();
+        client.connect("192.168.1.228", 6379).sync();
 
     }
 

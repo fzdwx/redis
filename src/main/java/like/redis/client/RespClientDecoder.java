@@ -29,7 +29,7 @@ public class RespClientDecoder extends LengthFieldBasedFrameDecoder {
         while (in.readableBytes() != 0) {
             int mark = in.readerIndex();
             try {
-                Resp resp = Resp.decode(in);
+                Resp resp = Resp.decodeForClient(in);
 
                 respConsumer.accept(resp);
 

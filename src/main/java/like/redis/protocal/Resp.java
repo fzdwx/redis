@@ -70,6 +70,50 @@ public interface Resp {
             if (length == -1) {
                 return RespBulkStrings.NULL_BULK_STRING;
             } else {
+                // if (in.readableBytes() < length + 2) {
+                //     throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
+                // }
+                // todo bug
+                content = new byte[length];
+                in.readBytes(content);
+            }
+            if (in.readByte() != '\r' || in.readByte() != '\n') {
+                throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
+            }
+            return new RespBulkStrings(new BytesWrapper(content));
+        } else if (c == '*') {
+            int numOfElement = getNumber(in);
+            Resp[] array = new Resp[numOfElement];
+            for (int i = 0; i < numOfElement; i++) {
+                array[i] = decode(in);
+            }
+            return new RespArrays(array);
+        } else {
+            if (c > 64 && c < 91) {
+                return new RespSimpleStrings(c + getContent(in));
+            } else {
+                return decode(in);
+            }
+        }
+    }
+
+    static Resp decodeForClient(ByteBuf in) {
+        if (in.readableBytes() <= 0) {
+            throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
+        }
+        final char c = ( char ) in.readByte();
+        if (c == '+') {
+            return new RespSimpleStrings(getContent(in));
+        } else if (c == '-') {
+            return new RespErrors(getContent(in));
+        } else if (c == ':') {
+            return new RespIntegers(getNumber(in));
+        } else if (c == '$') {
+            final int length = getNumber(in);
+            byte[] content;
+            if (length == -1) {
+                return RespBulkStrings.NULL_BULK_STRING;
+            } else {
                 if (in.readableBytes() < length + 2) {
                     throw new IllegalStateException("[Redis server ]|- 没有读取到完整的命令");
                 }
