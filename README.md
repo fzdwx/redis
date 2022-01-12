@@ -1,4 +1,4 @@
-# Redis Java
+# (Pause) Redis Java
 
 Use _Netty 4.1.66.Final_ with _JDK 17_**(learning)**
 
